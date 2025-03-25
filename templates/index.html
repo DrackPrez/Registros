@@ -4,20 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Asistencia</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Registro de Asistencia</h1>
-    <form action="/registrar" method="post">
-        <label for="tipo">Tipo de registro:</label>
-        <select id="tipo" name="tipo">
-            <option value="Entrada">Entrada</option>
-            <option value="Salida">Salida</option>
-        </select>
-        <br><br>
-        <label for="descripcion">Descripción (opcional):</label>
-        <input type="text" id="descripcion" name="descripcion">
-        <br><br>
-        <button type="submit">Registrar</button>
-    </form>
+    <div class="container">
+        <h1>Registro de Asistencia</h1>
+        <button class="button" onclick="mostrarDescripcion('Entrada')">Marcar Entrada</button>
+        <button class="button" onclick="mostrarDescripcion('Salida')">Marcar Salida</button>
+        <div id="descripcion" style="display: none;">
+            <form action="/registrar" method="post">
+                <input type="hidden" id="tipo" name="tipo">
+                <label for="desc">Descripción (opcional):</label><br>
+                <input type="text" id="desc" name="descripcion"><br><br>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+        <div id="mensaje" style="display: none;"></div>
+    </div>
+    <script>
+        function mostrarDescripcion(tipo) {
+            document.getElementById('tipo').value = tipo;
+            document.getElementById('descripcion').style.display = 'block';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const mensaje = urlParams.get('mensaje');
+        if (mensaje) {
+            document.getElementById('mensaje').innerText = mensaje;
+            document.getElementById('mensaje').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('mensaje').style.display = 'none';
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
